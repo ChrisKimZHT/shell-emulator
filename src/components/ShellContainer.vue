@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      historyText: window.Config.shellWelcome,
+      historyText: window.Config.shell.welcome,
     }
   },
   methods: {
