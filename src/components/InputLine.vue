@@ -1,6 +1,6 @@
 <template>
   <div class="input-line">
-    <span class="shell-prompt">{{ shellPrompt }}</span>
+    <span class="shell-prompt">{{ getShellPrompt() }}</span>
     <span class="input-area" ref="input-area" contenteditable="true" @input="updateCommand">
       {{ currentCommand }}
     </span>
@@ -17,19 +17,21 @@ export default {
   ],
   data() {
     return {
-      shellPrompt: `[${this.promptUser}@${this.promptHost} ${this.promptPath}]$ `,
       currentCommand: "",
       historyCommands: [],
       selectedHistoryCommandIndex: 0
     };
   },
   methods: {
+    getShellPrompt() {
+      return `[${this.promptUser}@${this.promptHost} ${this.promptPath}]$ `;
+    },
     updateCommand() {
       this.currentCommand = event.target.innerText;
       this.selectedHistoryCommandIndex = this.historyCommands.length;
     },
     submitCommand() {
-      this.$emit("submit-command", this.shellPrompt, this.currentCommand);
+      this.$emit("submit-command", this.getShellPrompt(), this.currentCommand);
       if (this.currentCommand.trim().length > 0) {
         this.historyCommands.push(this.currentCommand);
         this.selectedHistoryCommandIndex = this.historyCommands.length;
@@ -37,7 +39,7 @@ export default {
       this.currentCommand = "";
     },
     interruptCommand() {
-      this.$emit("interrupt-command", this.shellPrompt, this.currentCommand);
+      this.$emit("interrupt-command", this.getShellPrompt(), this.currentCommand);
       this.currentCommand = "";
     },
     getFocus() {

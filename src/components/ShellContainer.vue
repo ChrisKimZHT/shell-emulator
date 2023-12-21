@@ -1,13 +1,12 @@
 <template>
   <HistoryLines :history-content="historyContent" />
-  <InputLine :prompt-user="promptUser" :prompt-host="promptHost" :prompt-path="promptPath"
-    @submit-command="onExecuteCommand" @interrupt-command="onInterruptCommand" @clear="onClear" />
+  <InputLine :prompt-user="promptUser" :prompt-host="promptHost" :prompt-path="workingDirectory"
+    @submit-command="onExecuteCommand" @interrupt-command="onInterruptCommand" @clear="clearHistory" />
 </template>
 
 <script>
 import HistoryLines from "@/components/HistoryLines.vue";
-import InputLine from "./InputLine.vue";
-import parseCommand from "@/commandParser.js";
+import InputLine from "@/components/InputLine.vue";
 
 export default {
   name: "ShellContainer",
@@ -20,42 +19,54 @@ export default {
       historyContent: window.Config.shell.welcome,
       promptUser: window.Config.shell.user,
       promptHost: window.Config.shell.host,
-      promptPath: "~"
+      workingDirectory: "~"
     }
   },
   methods: {
     onExecuteCommand(shellPrompt, command) {
       /* 执行指令 */
       this.historyContent += `${shellPrompt}${command}\n`;
-      if (this.specialCheck(command)) {
+      const result = this.execute(this.workingDirectory, command);
+      if (result.startsWith("<<< ") && result.endsWith(" >>>")) {
+        this.specialOperation(result.slice(4, -4));
         return;
       }
-      this.historyContent += parseCommand(command) + "\n";
+      this.historyContent += result + "\n";
     },
     onInterruptCommand(shellPrompt, command) {
       /* 中断指令 */
       this.historyContent += `${shellPrompt}${command}^C\n`;
     },
-    onClear() {
+    clearHistory() {
       /* 清空历史记录 */
       this.historyContent = "";
     },
-    specialCheck(command) {
-      /* 特判指令，如果被捕获，则特判并返回 true，反之返回 false */
-      const trimmedCommand = command.trim();
-      if (trimmedCommand.length === 0) {
-        return true;
+    execute(workingDirectory, command) {
+      const splitedCommand = command.trim().split(" ");
+      const program = splitedCommand[0];
+      const args = splitedCommand.slice(1);
+      if (workingDirectory === "~") {
+        workingDirectory = `/home/${window.Config.shell.user}`;
       }
-      const splitCommand = trimmedCommand.split(" ");
-      const program = splitCommand[0];
-      // const args = splitCommand.slice(1);
-      if (program === "clear") {
-        this.historyContent = "";
-        return true;
+      for (const command of window.Commands) {
+        if (command.name === program) {
+          return command.func(workingDirectory, args);
+        }
       }
-      return false;
+      return `${program}: command not found`;
     },
-
+    specialOperation(operation) {
+      /* 特殊指令 */
+      operation = operation.trim();
+      const splitedOperation = operation.split(":");
+      const type = splitedOperation[0];
+      const args = splitedOperation[1];
+      if (type === "CLEAR") {
+        this.clearHistory();
+      } else if (type === "CD") {
+        this.workingDirectory = args;
+      }
+    }
   },
 }
 </script>
