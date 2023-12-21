@@ -1,21 +1,14 @@
 import echo from "@/commands/echo.js";
 import clear from "@/commands/clear.js";
 import pwd from "@/commands/pwd.js";
+import cd from "@/commands/cd.js";
 
 const all_commands = [
-  {
-    name: "echo",
-    func: echo
-  },
-  {
-    name: "clear",
-    func: clear
-  },
-  {
-    name: "pwd",
-    func: pwd
-  }
-]
+  { name: "echo", func: echo },
+  { name: "clear", func: clear },
+  { name: "pwd", func: pwd },
+  { name: "cd", func: cd },
+];
 
 export default function executor(cwd, cmd) {
   const cmdSplit = cmd.split(" ").map(x => x.trim()).filter(x => x.length > 0);

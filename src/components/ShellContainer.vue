@@ -36,10 +36,18 @@ export default {
     onInterruptInput(shellPrompt, command) {
       this.historyContent += `${shellPrompt}${command}^C\n`;
     },
+    onChangeDir(newDir) {
+      this.currentDir = newDir;
+    },
   },
   mounted() {
     eventBus.on("ctrl-l", this.onClear);
+    eventBus.on("change-dir", this.onChangeDir);
   },
+  beforeUnmount() {
+    eventBus.off("ctrl-l", this.onClear);
+    eventBus.off("change-dir", this.onChangeDir);
+  }
 }
 </script>
 
