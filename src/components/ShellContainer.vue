@@ -1,7 +1,7 @@
 <template>
-  <HistoryLines :history-text="historyText" />
-  <InputLine user="root" host="shell-emulator" path="~" @submit-command="executeCommand"
-    @interrupt-command="interruptCommand" />
+  <HistoryLines :history-content="historyContent" />
+  <InputLine prompt-user="root" prompt-host="shell-emulator" prompt-path="~" @submit-command="onExecuteCommand"
+    @interrupt-command="onInterruptCommand" @clear="onClear" />
 </template>
 
 <script>
@@ -17,47 +17,43 @@ export default {
   },
   data() {
     return {
-      historyText: window.Config.shell.welcome,
+      historyContent: window.Config.shell.welcome,
     }
   },
   methods: {
-    executeCommand(shellPrompt, command) {
+    onExecuteCommand(shellPrompt, command) {
       /* 执行指令 */
-      this.historyText += `${shellPrompt}${command}\n`;
+      this.historyContent += `${shellPrompt}${command}\n`;
       if (this.specialCheck(command)) {
         return;
       }
-      this.historyText += parseCommand(command) + "\n";
+      this.historyContent += parseCommand(command) + "\n";
     },
-    interruptCommand(shellPrompt, command) {
+    onInterruptCommand(shellPrompt, command) {
       /* 中断指令 */
-      this.historyText += `${shellPrompt}${command}^C\n`;
+      this.historyContent += `${shellPrompt}${command}^C\n`;
+    },
+    onClear() {
+      /* 清空历史记录 */
+      this.historyContent = "";
     },
     specialCheck(command) {
       /* 特判指令，如果被捕获，则特判并返回 true，反之返回 false */
-      let trimmedCommand = command.trim();
-      if (command.length === 0) {
+      const trimmedCommand = command.trim();
+      if (trimmedCommand.length === 0) {
         return true;
-      } else if (trimmedCommand === "clear") {
-        this.historyText = "";
+      }
+      const splitCommand = trimmedCommand.split(" ");
+      const program = splitCommand[0];
+      // const args = splitCommand.slice(1);
+      if (program === "clear") {
+        this.historyContent = "";
         return true;
       }
       return false;
     },
-    handleKeydown() {
-      /* 处理键盘事件 */
-      if (event.key.toLowerCase() === "l" && event.ctrlKey) {
-        event.preventDefault();
-        this.historyText = "";
-      }
-    },
+
   },
-  mounted() {
-    document.addEventListener("keydown", this.handleKeydown);
-  },
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeydown);
-  }
 }
 </script>
 

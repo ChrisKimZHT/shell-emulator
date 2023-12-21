@@ -1,12 +1,12 @@
 <template>
-  <span class="history-content">{{ historyText }}</span>
+  <span class="history-content">{{ historyContent }}</span>
 </template>
 
 <script>
 export default {
-  name: "HistoryContent",
+  name: "HistoryLines",
   props: [
-    "historyText"
+    "historyContent"
   ]
 }
 </script>
