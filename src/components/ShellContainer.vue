@@ -1,7 +1,7 @@
 <template>
   <HistoryLines :history-content="historyContent" />
-  <InputLine prompt-user="root" prompt-host="shell-emulator" prompt-path="~" @submit-command="onExecuteCommand"
-    @interrupt-command="onInterruptCommand" @clear="onClear" />
+  <InputLine :prompt-user="promptUser" :prompt-host="promptHost" :prompt-path="promptPath"
+    @submit-command="onExecuteCommand" @interrupt-command="onInterruptCommand" @clear="onClear" />
 </template>
 
 <script>
@@ -18,6 +18,9 @@ export default {
   data() {
     return {
       historyContent: window.Config.shell.welcome,
+      promptUser: window.Config.shell.user,
+      promptHost: window.Config.shell.host,
+      promptPath: "~"
     }
   },
   methods: {

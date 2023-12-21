@@ -1,7 +1,7 @@
 window.Config = {
   shell: {
-    user: "chriskim",
-    host: "test.emulator.sh",
+    user: "root",
+    host: "shell-emulator",
     welcome: `Welcome to the Shell Emulator!\n\n`
   },
 }
