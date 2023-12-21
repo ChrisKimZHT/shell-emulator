@@ -8,71 +8,55 @@
 </template>
 
 <script>
+import eventBus from "@/utils/eventBus.js";
+
 export default {
   name: "InputLine",
   props: [
     "promptUser",
     "promptHost",
-    "promptPath",
+    "currentDir",
   ],
   data() {
     return {
       currentCommand: "",
-      historyCommands: [],
-      selectedHistoryCommandIndex: 0
-    };
-  },
-  methods: {
-    getShellPrompt() {
-      return `[${this.promptUser}@${this.promptHost} ${this.promptPath}]$ `;
-    },
-    updateCommand() {
-      this.currentCommand = event.target.innerText;
-      this.selectedHistoryCommandIndex = this.historyCommands.length;
-    },
-    submitCommand() {
-      this.$emit("submit-command", this.getShellPrompt(), this.currentCommand);
-      if (this.currentCommand.trim().length > 0) {
-        this.historyCommands.push(this.currentCommand);
-        this.selectedHistoryCommandIndex = this.historyCommands.length;
-      }
-      this.currentCommand = "";
-    },
-    interruptCommand() {
-      this.$emit("interrupt-command", this.getShellPrompt(), this.currentCommand);
-      this.currentCommand = "";
-    },
-    getFocus() {
-      this.$refs["input-area"].focus();
-    },
-    handleKeydown() {
-      this.getFocus();
-      if (event.key === "Enter") { // Enter
-        event.preventDefault();
-        this.submitCommand();
-      } else if (event.key.toLowerCase() === "c" && event.ctrlKey) { // Ctrl + C
-        this.interruptCommand();
-      } else if (event.key.toLowerCase() === "l" && event.ctrlKey) { // Ctrl + L
-        event.preventDefault();
-        this.$emit("clear");
-      } else if (event.key === "ArrowUp") { // ArrowUp
-        event.preventDefault();
-        if (this.selectedHistoryCommandIndex > 0) {
-          this.selectedHistoryCommandIndex--;
-          this.currentCommand = this.historyCommands[this.selectedHistoryCommandIndex];
-        }
-      } else if (event.key === "ArrowDown") { // ArrowDown
-        event.preventDefault();
-        this.selectedHistoryCommandIndex = Math.min(this.selectedHistoryCommandIndex + 1, this.historyCommands.length);
-        this.currentCommand = this.selectedHistoryCommandIndex < this.historyCommands.length ? this.historyCommands[this.selectedHistoryCommandIndex] : "";
-      }
     }
   },
-  mounted() {
-    document.addEventListener("keydown", this.handleKeydown);
+  methods: {
+    getFocus() {
+      this.$refs["input-area"].focus()
+    },
+    getShellPrompt() {
+      let promptDir = "";
+      if (this.currentDir === "/home/chriskim") {
+        promptDir = "~";
+      } else {
+        const tmp = this.currentDir.split("/").pop();
+        promptDir = tmp.length > 0 ? tmp : "/";
+      }
+      return `[${this.promptUser}@${this.promptHost} ${promptDir}]$ `;
+    },
+    updateCommand(event) {
+      this.currentCommand = event.target.innerText;
+    },
+    finishedInput() {
+      this.$emit("finished-input", this.getShellPrompt(), this.currentCommand);
+      this.currentCommand = "";
+    },
+    interruptInput() {
+      this.$emit("interrupt-input", this.getShellPrompt(), this.currentCommand);
+      this.currentCommand = "";
+    },
   },
-  beforeUnmount() {
-    document.removeEventListener("keydown", this.handleKeydown);
+  mounted() {
+    eventBus.on("key-down", this.getFocus)
+    eventBus.on("ctrl-c", this.interruptInput);
+    eventBus.on("enter", this.finishedInput);
+  },
+  unmounted() {
+    eventBus.off("key-down", this.getFocus)
+    eventBus.off("ctrl-c", this.interruptInput);
+    eventBus.off("enter", this.finishedInput);
   },
 }
 </script>
