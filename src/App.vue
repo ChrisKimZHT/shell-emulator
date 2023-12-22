@@ -5,6 +5,7 @@
 <script>
 import ShellContainer from "@/components/ShellContainer.vue";
 import eventBus from "@/utils/eventBus.js";
+import initUptime from "./utils/initUptime";
 
 export default {
   name: "App",
@@ -37,6 +38,7 @@ export default {
   },
   mounted() {
     document.addEventListener("keydown", this.onKeyDown);
+    initUptime();
   },
   beforeUnmount() {
     document.removeEventListener("keydown", this.onKeyDown);
