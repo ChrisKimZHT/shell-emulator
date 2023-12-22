@@ -3,13 +3,15 @@ import clear from "@/commands/clear.js";
 import pwd from "@/commands/pwd.js";
 import cd from "@/commands/cd.js";
 import ls from "@/commands/ls.js";
+import cat from "@/commands/cat";
 
 const all_commands = [
   { name: "echo", func: echo },
   { name: "clear", func: clear },
   { name: "pwd", func: pwd },
   { name: "cd", func: cd },
-  { name: "ls", func: ls }
+  { name: "ls", func: ls },
+  { name: "cat", func: cat },
 ];
 
 export default function executor(cwd, cmd) {

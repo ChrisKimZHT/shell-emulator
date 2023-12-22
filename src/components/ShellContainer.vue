@@ -29,7 +29,7 @@ export default {
     onFinishedInput(shellPrompt, command) {
       this.historyContent += `${shellPrompt}${command}\n`;
       const result = executor(this.currentDir, command);
-      if (result !== undefined) {
+      if (result !== undefined && result !== null && result.length > 0) {
         this.historyContent += `${result}\n`;
       }
     },
