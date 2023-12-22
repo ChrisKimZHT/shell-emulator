@@ -4,6 +4,7 @@ import pwd from "@/commands/pwd.js";
 import cd from "@/commands/cd.js";
 import ls from "@/commands/ls.js";
 import cat from "@/commands/cat";
+import meow from "@/commands/meow";
 
 const all_commands = [
   { name: "echo", func: echo },
@@ -12,6 +13,7 @@ const all_commands = [
   { name: "cd", func: cd },
   { name: "ls", func: ls },
   { name: "cat", func: cat },
+  { name: "meow", func: meow }
 ];
 
 export default function executor(cwd, cmd) {
