@@ -10,10 +10,13 @@ export default function ls(cwd, args) {
   }
   let error = [], result = [];
   let flag = false;
+  if (args.length === 0) {
+    args.push(".");
+  }
   for (const arg of args) {
     const abosolutePath = getAbsolutePath(cwd, arg);
     if (!checkDirectory(abosolutePath)) {
-      error.push(`ls: cannot access '${arg}': No such file or directory`);
+      error.push(`ls: cannot access '${abosolutePath}': No such file or directory`);
       continue;
     }
     const list = listDirectory(abosolutePath);
