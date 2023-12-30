@@ -1,24 +1,7 @@
 # shell-emulator
 
-## Project setup
-```
-npm install
-```
+前端实现的终端模拟器，可以实现一些有趣的功能。例如作为个人关于页面，用终端的形式来展示自己的信息。
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+灵感来源（似乎已经挂了）：https://axton.cc/
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+目前仍在开发中，仅完成了基本的框架，功能还不多。
