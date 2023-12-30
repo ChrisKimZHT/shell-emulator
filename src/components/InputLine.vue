@@ -28,6 +28,15 @@ export default {
     getFocus() {
       this.$refs.inputArea.focus()
     },
+    moveCursorToEnd() {
+      const el = this.$refs.inputArea;
+      const range = document.createRange();
+      const sel = window.getSelection();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    },
     getShellPrompt() {
       let promptDir = "";
       if (this.currentDir === "/home/chriskim") {
@@ -57,6 +66,9 @@ export default {
         this.curHistoryIndex--;
         this.currentCommand = this.historyCommands[this.curHistoryIndex];
       }
+      this.$nextTick(() => {
+        this.moveCursorToEnd();
+      });
     },
     onNextHistory() {
       if (this.curHistoryIndex < this.historyCommands.length - 1) {
@@ -66,6 +78,9 @@ export default {
         this.curHistoryIndex = this.historyCommands.length;
         this.currentCommand = "";
       }
+      this.$nextTick(() => {
+        this.moveCursorToEnd();
+      });
     }
   },
   mounted() {
