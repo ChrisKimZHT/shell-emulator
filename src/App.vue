@@ -54,6 +54,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background-color: #fff;
+  min-height: 100vh;
+  margin: 0;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
 ::selection {
   background-color: #000;
   color: #fff;
