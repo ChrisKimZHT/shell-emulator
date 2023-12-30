@@ -31,6 +31,9 @@ export default {
       const result = executor(this.currentDir, command);
       if (result !== undefined && result !== null && result.length > 0) {
         this.historyContent += `${result}\n`;
+        this.$nextTick(() => {
+          document.querySelector("#input-line").scrollIntoView();
+        });
       }
     },
     onInterruptInput(shellPrompt, command) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="input-line">
+  <div class="input-line" id="input-line">
     <span class="shell-prompt">{{ getShellPrompt() }}</span>
     <span class="input-area" ref="inputArea" contenteditable="true" @input="updateCommand">
       {{ currentCommand }}
