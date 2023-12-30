@@ -2,8 +2,8 @@ import echo from "@/commands/echo.js";
 import clear from "@/commands/clear.js";
 import pwd from "@/commands/pwd.js";
 import cd, { cdHint } from "@/commands/cd.js";
-import ls from "@/commands/ls.js";
-import cat from "@/commands/cat";
+import ls, { lsHint } from "@/commands/ls.js";
+import cat, { catHint } from "@/commands/cat";
 import meow from "@/commands/meow";
 
 const all_commands = [
@@ -11,8 +11,8 @@ const all_commands = [
   { name: "clear", func: clear },
   { name: "pwd", func: pwd },
   { name: "cd", func: cd, hint: cdHint },
-  { name: "ls", func: ls },
-  { name: "cat", func: cat },
+  { name: "ls", func: ls, hint: lsHint },
+  { name: "cat", func: cat, hint: catHint },
   { name: "meow", func: meow }
 ];
 

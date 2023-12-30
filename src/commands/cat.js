@@ -1,5 +1,6 @@
 import getAbsolutePath from "@/utils/getAbsolutePath.js";
 import { getFileContent, checkFile, checkDirectory } from "../utils/fileSystem.js";
+import directoryHint from "@/utils/directoryHint.js";
 
 export default function cat(cwd, args) {
   for (const arg of args) {
@@ -30,4 +31,15 @@ export default function cat(cwd, args) {
     result.push(file);
   }
   return result.join("\n");
+}
+
+export function catHint(cwd, args) { 
+  const arg = args[args.length - 1];
+  if (arg === undefined) {
+    return "";
+  }
+  if (arg.startsWith("-")) {
+    return "";
+  }
+  return directoryHint(cwd, arg);
 }

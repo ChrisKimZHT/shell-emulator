@@ -1,6 +1,7 @@
 import getAbsolutePath from "@/utils/getAbsolutePath";
 import { checkDirectory } from "@/utils/fileSystem";
 import { listDirectory } from "@/utils/fileSystem";
+import directoryHint from "@/utils/directoryHint";
 
 export default function ls(cwd, args) {
   for (const arg of args) {
@@ -30,4 +31,15 @@ export default function ls(cwd, args) {
     flag = true;
   }
   return error.concat(result).join("\n");
+}
+
+export function lsHint(cwd, args) {
+  const arg = args[args.length - 1];
+  if (arg === undefined) {
+    return "";
+  }
+  if (arg.startsWith("-")) {
+    return "";
+  }
+  return directoryHint(cwd, arg);
 }
