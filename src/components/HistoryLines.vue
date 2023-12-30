@@ -13,6 +13,7 @@ export default {
 
 <style scoped>
 .history-content {
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 </style>
