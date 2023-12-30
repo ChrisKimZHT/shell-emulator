@@ -5,6 +5,8 @@ import cd, { cdHint } from "@/commands/cd.js";
 import ls, { lsHint } from "@/commands/ls.js";
 import cat, { catHint } from "@/commands/cat";
 import meow from "@/commands/meow";
+import version from "@/commands/version";
+import uname, { unameHint } from "@/commands/uname";
 
 const all_commands = [
   { name: "echo", func: echo },
@@ -13,7 +15,9 @@ const all_commands = [
   { name: "cd", func: cd, hint: cdHint },
   { name: "ls", func: ls, hint: lsHint },
   { name: "cat", func: cat, hint: catHint },
-  { name: "meow", func: meow }
+  { name: "meow", func: meow },
+  { name: "version", func: version },
+  { name: "uname", func: uname, hint: unameHint },
 ];
 
 export default function executor(cwd, cmd) {
