@@ -15,5 +15,6 @@ export default {
 .history-content {
   white-space: pre-wrap;
   word-break: break-all;
+  line-height: 23px;
 }
 </style>

@@ -121,6 +121,10 @@ export default {
 </script>
 
 <style scoped>
+.input-line{
+  line-height: 23px;
+}
+
 .shell-prompt {
   white-space: pre;
 }
