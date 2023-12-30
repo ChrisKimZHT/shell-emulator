@@ -45,6 +45,9 @@ export function getHint(cwd, cmd) {
       return command.hint?.(cwd, cmdSplit.slice(1)) ?? "";
     }
   }
+  if (cmdSplit.length > 1) {
+    return "";
+  }
   let hint = "";
   for (const command of all_commands) {
     if (command.name.startsWith(cmdName)) {
