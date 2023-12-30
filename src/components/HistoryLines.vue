@@ -16,5 +16,6 @@ export default {
   white-space: pre-wrap;
   word-break: break-all;
   line-height: 23px;
+  font-size: 17px;
 }
 </style>

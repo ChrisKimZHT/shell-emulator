@@ -121,8 +121,9 @@ export default {
 </script>
 
 <style scoped>
-.input-line{
+.input-line {
   line-height: 23px;
+  font-size: 17px;
 }
 
 .shell-prompt {
