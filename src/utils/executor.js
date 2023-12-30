@@ -30,3 +30,20 @@ export default function executor(cwd, cmd) {
   }
   return `${cmdName}: command not found`;
 }
+
+export function getHint(cwd, cmd) {
+  const cmdSplit = cmd.split(" ").map(x => x.trim()).filter(x => x.length > 0);
+  const cmdName = cmdSplit[0];
+  if (cmdName === null || cmdName === undefined || cmdName.length === 0) {
+    return "";
+  }
+  let hint = "";
+  for (const command of all_commands) {
+    if (command.name.startsWith(cmdName)) {
+      if (hint.length === 0 || hint.length > command.name.length - cmdName.length) {
+        hint = command.name.slice(cmdName.length);
+      }
+    }
+  }
+  return hint;
+}

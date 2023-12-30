@@ -4,11 +4,13 @@
     <span class="input-area" ref="inputArea" contenteditable="true" @input="updateCommand">
       {{ currentCommand }}
     </span>
+    <span class="hint-area"> {{ currentHint }}</span>
   </div>
 </template>
 
 <script>
 import eventBus from "@/utils/eventBus.js";
+import { getHint } from "@/utils/executor.js";
 
 export default {
   name: "InputLine",
@@ -20,6 +22,7 @@ export default {
   data() {
     return {
       currentCommand: "",
+      currentHint: "",
       historyCommands: [],
       curHistoryIndex: 0,
     }
@@ -50,6 +53,14 @@ export default {
     updateCommand(event) {
       this.currentCommand = event.target.innerText;
       this.curHistoryIndex = this.historyCommands.length;
+      this.currentHint = getHint(this.currentDir, this.currentCommand);
+    },
+    confirmHint() {
+      this.currentCommand += this.currentHint;
+      this.currentHint = "";
+      this.$nextTick(() => {
+        this.moveCursorToEnd();
+      });
     },
     finishedInput() {
       this.$emit("finished-input", this.getShellPrompt(), this.currentCommand);
@@ -89,6 +100,7 @@ export default {
     eventBus.on("enter", this.finishedInput);
     eventBus.on("arrow-up", this.onPrevHistory);
     eventBus.on("arrow-down", this.onNextHistory);
+    eventBus.on("tab", this.confirmHint);
   },
   unmounted() {
     eventBus.off("key-down", this.getFocus);
@@ -96,6 +108,7 @@ export default {
     eventBus.off("enter", this.finishedInput);
     eventBus.off("arrow-up", this.onPrevHistory);
     eventBus.off("arrow-down", this.onNextHistory);
+    eventBus.off("tab", this.confirmHint);
   },
 }
 </script>
@@ -108,5 +121,9 @@ export default {
 .input-area {
   outline: none;
   word-break: break-all;
+}
+
+.hint-area {
+  opacity: 0.3;
 }
 </style>
