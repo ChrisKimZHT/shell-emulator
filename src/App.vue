@@ -53,5 +53,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+::selection {
+  background-color: #000;
+  color: #fff;
+}
 </style>
  
