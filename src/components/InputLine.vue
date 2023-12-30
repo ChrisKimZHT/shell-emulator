@@ -53,11 +53,14 @@ export default {
     updateCommand(event) {
       this.currentCommand = event.target.innerText;
       this.curHistoryIndex = this.historyCommands.length;
+      this.updateHint();
+    },
+    updateHint() {
       this.currentHint = getHint(this.currentDir, this.currentCommand);
     },
     confirmHint() {
       this.currentCommand += this.currentHint;
-      this.currentHint = "";
+      this.updateHint();
       this.$nextTick(() => {
         this.moveCursorToEnd();
       });
@@ -67,10 +70,12 @@ export default {
       this.historyCommands.push(this.currentCommand);
       this.curHistoryIndex = this.historyCommands.length;
       this.currentCommand = "";
+      this.currentHint = "";
     },
     interruptInput() {
       this.$emit("interrupt-input", this.getShellPrompt(), this.currentCommand);
       this.currentCommand = "";
+      this.currentHint = "";
     },
     onPrevHistory() {
       if (this.curHistoryIndex > 0) {
@@ -80,6 +85,7 @@ export default {
       this.$nextTick(() => {
         this.moveCursorToEnd();
       });
+      this.updateHint();
     },
     onNextHistory() {
       if (this.curHistoryIndex < this.historyCommands.length - 1) {
@@ -92,6 +98,7 @@ export default {
       this.$nextTick(() => {
         this.moveCursorToEnd();
       });
+      this.updateHint();
     }
   },
   mounted() {

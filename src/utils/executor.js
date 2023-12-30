@@ -1,7 +1,7 @@
 import echo from "@/commands/echo.js";
 import clear from "@/commands/clear.js";
 import pwd from "@/commands/pwd.js";
-import cd from "@/commands/cd.js";
+import cd, { cdHint } from "@/commands/cd.js";
 import ls from "@/commands/ls.js";
 import cat from "@/commands/cat";
 import meow from "@/commands/meow";
@@ -10,7 +10,7 @@ const all_commands = [
   { name: "echo", func: echo },
   { name: "clear", func: clear },
   { name: "pwd", func: pwd },
-  { name: "cd", func: cd },
+  { name: "cd", func: cd, hint: cdHint },
   { name: "ls", func: ls },
   { name: "cat", func: cat },
   { name: "meow", func: meow }
@@ -36,6 +36,11 @@ export function getHint(cwd, cmd) {
   const cmdName = cmdSplit[0];
   if (cmdName === null || cmdName === undefined || cmdName.length === 0) {
     return "";
+  }
+  for (const command of all_commands) {
+    if (command.name === cmdName) {
+      return command.hint?.(cwd, cmdSplit.slice(1)) ?? "";
+    }
   }
   let hint = "";
   for (const command of all_commands) {

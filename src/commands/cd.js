@@ -1,6 +1,6 @@
-
 import getAbsolutePath from "@/utils/getAbsolutePath.js";
-import { checkDirectory } from "../utils/fileSystem.js";
+import { checkDirectory } from "@/utils/fileSystem.js";
+import directoryHint from "@/utils/directoryHint.js";
 import eventBus from "@/utils/eventBus";
 
 export default function cd(cwd, cmd) {
@@ -13,4 +13,11 @@ export default function cd(cwd, cmd) {
   }
   eventBus.emit("change-dir", absolutePath);
   return;
+}
+
+export function cdHint(cwd, cmd) {
+  if (cmd.length > 1) {
+    return "";
+  }
+  return directoryHint(cwd, cmd[0]);
 }
