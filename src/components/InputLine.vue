@@ -66,14 +66,14 @@ export default {
       });
     },
     finishedInput() {
-      this.$emit("finished-input", this.getShellPrompt(), this.currentCommand);
+      this.$emit("finished-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
       this.historyCommands.push(this.currentCommand);
       this.curHistoryIndex = this.historyCommands.length;
       this.currentCommand = "";
       this.currentHint = "";
     },
     interruptInput() {
-      this.$emit("interrupt-input", this.getShellPrompt(), this.currentCommand);
+      this.$emit("interrupt-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
       this.currentCommand = "";
       this.currentHint = "";
     },
@@ -99,7 +99,16 @@ export default {
         this.moveCursorToEnd();
       });
       this.updateHint();
-    }
+    },
+    escapeHtml(text) {
+      const map = {
+        '<': '&lt;',
+        '>': '&gt;',
+      };
+      return text.replace(/[<>]/g, function (m) {
+        return map[m];
+      });
+    },
   },
   mounted() {
     eventBus.on("key-down", this.getFocus);
