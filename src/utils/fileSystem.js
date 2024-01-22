@@ -45,6 +45,25 @@ export function listDirectory(path) {
   return Object.keys(current);
 }
 
+export function listDirectoryWithTypes(path) {
+  const pathSplit = path.split("/").map(x => x.trim()).filter(x => x.length > 0);
+  let current = tree;
+  for (const dir of pathSplit) {
+    if (current[dir] === undefined) {
+      return null;
+    }
+    current = current[dir];
+  }
+  if (typeof current === "function") {
+    return null;
+  }
+  const result = []
+  for (const key of Object.keys(current)) {
+    result.push([typeof current[key] === "function" ? "f" : "d", key]);
+  }
+  return result;
+}
+
 export function checkFile(path) {
   const pathSplit = path.split("/").map(x => x.trim()).filter(x => x.length > 0);
   let current = tree;
