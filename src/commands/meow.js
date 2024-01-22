@@ -15,6 +15,6 @@ export default function meow(cwd, args) {
   cwd, args;
   let imgFile = imgList[Math.floor(Math.random() * imgList.length)];
   let imgURL = imgPrefix + imgFile;
-  return imgURL;
+  return `<a href="${imgURL}" target="_blank">${imgFile}</a>`;
 }
 
