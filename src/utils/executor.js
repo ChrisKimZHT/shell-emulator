@@ -9,6 +9,7 @@ import version from "@/commands/version";
 import uname, { unameHint } from "@/commands/uname";
 import hello from "@/commands/hello";
 import ciallo from "@/commands/ciallo";
+import help from "@/commands/help";
 
 const all_commands = [
   { name: "echo", func: echo },
@@ -17,11 +18,12 @@ const all_commands = [
   { name: "cd", func: cd, hint: cdHint },
   { name: "ls", func: ls, hint: lsHint },
   { name: "cat", func: cat, hint: catHint },
-  { name: "meow", func: meow },
+  { name: "meow", func: meow},
   { name: "version", func: version },
   { name: "uname", func: uname, hint: unameHint },
   { name: "hello", func: hello },
-  { name: "ciallo", func: ciallo },
+  { name: "ciallo", func: ciallo},
+  { name: "help", func: help },
 ];
 
 export default function executor(cwd, cmd) {
@@ -62,6 +64,11 @@ export function getHint(cwd, cmd) {
       hint.push(command.name.slice(cmdName.length));
     }
   }
-  hint.sort();
+  hint.sort((a, b) => {
+    if (a.length !== b.length) {
+      return a.length - b.length;
+    }
+    return a.localeCompare(b);
+  });
   return hint;
 }
