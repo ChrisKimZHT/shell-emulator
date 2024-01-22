@@ -23,11 +23,6 @@ export default function cat(cwd, args) {
       continue;
     }
     const file = getFileContent(abosolutePath);
-    if (file.startsWith("[FUNCTION]")) {
-      const func = eval(file.slice(10));
-      result.push(func());
-      continue;
-    }
     result.push(file);
   }
   return result.join("\n");
