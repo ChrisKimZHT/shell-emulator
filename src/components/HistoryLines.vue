@@ -1,5 +1,5 @@
 <template>
-  <span class="history-content">{{ historyContent }}</span>
+  <span class="history-content" v-html="historyContent"></span>
 </template>
 
 <script>
