@@ -5,8 +5,8 @@ export default function version(cwd, cmd) {
     "=======================\n" +
     ` Shell Emulator v${window.appVersion}\n` +
     "-----------------------\n" +
-    "Author: ChrisKimZHT\n" +
-    "GitHub: shell-emulator\n" +
+    "Author: <a href=\"https://github.com/ChrisKimZHT\" target=\"_blank\">ChrisKimZHT</a>\n" +
+    "GitHub: <a href=\"https://github.com/ChrisKimZHT/shell-emulator\" target=\"_blank\">shell-emulator</a>\n" +
     "=======================\n\n";
   return res;
 }
