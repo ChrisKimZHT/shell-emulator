@@ -7,6 +7,8 @@ import cat, { catHint } from "@/commands/cat";
 import meow from "@/commands/meow";
 import version from "@/commands/version";
 import uname, { unameHint } from "@/commands/uname";
+import hello from "@/commands/hello";
+import ciallo from "@/commands/ciallo";
 
 const all_commands = [
   { name: "echo", func: echo },
@@ -18,6 +20,8 @@ const all_commands = [
   { name: "meow", func: meow },
   { name: "version", func: version },
   { name: "uname", func: uname, hint: unameHint },
+  { name: "hello", func: hello },
+  { name: "ciallo", func: ciallo },
 ];
 
 export default function executor(cwd, cmd) {
