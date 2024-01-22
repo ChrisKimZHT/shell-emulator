@@ -53,11 +53,11 @@ export function getHint(cwd, cmd) {
   if (cmdName === null || cmdName === undefined || cmdName.length === 0) {
     return [];
   }
+  if (cmd.endsWith(" ") || cmd.endsWith("\u00a0")) { // \u00a0 is &nbsp;
+    return [];
+  }
   for (const command of all_commands) {
     if (command.name === cmdName) {
-      if (cmd.endsWith(" ") || cmd.endsWith("\u00a0")) { // \u00a0 is &nbsp;
-        return [];
-      }
       return command.hint?.(cwd, cmdSplit.slice(1)) ?? [];
     }
   }
