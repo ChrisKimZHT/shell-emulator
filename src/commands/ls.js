@@ -44,8 +44,8 @@ export function lsHint(cwd, args) {
   if (arg === undefined) {
     return "";
   }
-  if (arg === "-") {
-    return "l";
-  }
+  // if (arg === "-") {
+  //   return "l";
+  // }
   return directoryHint(cwd, arg);
 }
