@@ -10,6 +10,8 @@ import uname, { unameHint } from "@/commands/uname";
 import hello from "@/commands/hello";
 import ciallo from "@/commands/ciallo";
 import help from "@/commands/help";
+import shutdown from "@/commands/shutdown";
+import reboot from "@/commands/reboot";
 
 const all_commands = [
   { name: "echo", func: echo },
@@ -24,6 +26,8 @@ const all_commands = [
   { name: "hello", func: hello },
   { name: "ciallo", func: ciallo},
   { name: "help", func: help },
+  { name: "shutdown", func: shutdown },
+  { name: "reboot", func: reboot },
 ];
 
 export default function executor(cwd, cmd) {
