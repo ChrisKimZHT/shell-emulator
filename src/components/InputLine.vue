@@ -4,7 +4,7 @@
     <span class="input-area" ref="inputArea" contenteditable="true" @input="updateCommand">
       {{ currentCommand }}
     </span>
-    <span class="hint-area"> {{ currentHint }}</span>
+    <span class="hint-area"> {{ displayHint }}</span>
   </div>
 </template>
 
@@ -22,7 +22,9 @@ export default {
   data() {
     return {
       currentCommand: "",
-      currentHint: "",
+      currentHint: [],
+      displayHint: "",
+      hintTabCount: 0,
       historyCommands: [],
       curHistoryIndex: 0,
     }
@@ -56,26 +58,50 @@ export default {
       this.updateHint();
     },
     updateHint() {
-      this.currentHint = getHint(this.currentDir, this.currentCommand);
+      this.hintTabCount = 0;
+      this.currentHint = [];
+      this.displayHint = "";
+      if (this.currentCommand.length === 0) {
+        return;
+      }
+      const hints = getHint(this.currentDir, this.currentCommand);
+      if (hints.length !== 0) {
+        this.displayHint = hints.at(0);
+      }
+      for (let i = 0; i < hints.length; i++) {
+        const tmp = this.currentCommand.split(" ");
+        hints[i] = tmp[tmp.length - 1] + hints[i];
+      }
+      this.currentHint = hints;
     },
     confirmHint() {
-      this.currentCommand += this.currentHint;
-      this.updateHint();
-      this.$nextTick(() => {
-        this.moveCursorToEnd();
-      });
+      if (this.currentHint.length === 0) {
+        // do nothing
+      } else if (this.currentHint.length === 1) {
+        this.currentCommand += this.displayHint;
+        this.updateHint();
+        this.$nextTick(() => {
+          this.moveCursorToEnd();
+        });
+      } else {
+        if (this.hintTabCount === 0) {
+          this.hintTabCount++;
+        } else {
+          this.$emit("re-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand), this.currentHint.join("\t"));
+        }
+      }
     },
     finishedInput() {
       this.$emit("finished-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
       this.historyCommands.push(this.currentCommand);
       this.curHistoryIndex = this.historyCommands.length;
       this.currentCommand = "";
-      this.currentHint = "";
+      this.updateHint();
     },
     interruptInput() {
       this.$emit("interrupt-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
       this.currentCommand = "";
-      this.currentHint = "";
+      this.updateHint();
     },
     onPrevHistory() {
       if (this.curHistoryIndex > 0) {

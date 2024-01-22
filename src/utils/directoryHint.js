@@ -11,12 +11,13 @@ export default function directoryHint(cwd, cmd) {
   const suffix = absolutePath.slice(lastSlashIdx + 1); // 没输完的路径
   const dirList = listDirectory(prefix);
   if (dirList === null) {
-    return "";
+    return [];
   }
+  const result = [];
   for (const dir of dirList) {
     if (dir.startsWith(suffix)) {
-      return dir.slice(suffix.length);
+      result.push(dir.slice(suffix.length));
     }
   }
-  return "";
+  return result;
 }

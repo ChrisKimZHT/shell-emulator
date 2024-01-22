@@ -17,7 +17,7 @@ export default function cd(cwd, cmd) {
 
 export function cdHint(cwd, cmd) {
   if (cmd.length > 1) {
-    return "";
+    return [];
   }
   return directoryHint(cwd, cmd[0]);
 }

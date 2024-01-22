@@ -54,7 +54,7 @@ export default function ls(cwd, args) {
 export function lsHint(cwd, args) {
   const arg = args[args.length - 1];
   if (arg === undefined) {
-    return "";
+    return [];
   }
   // if (arg === "-") {
   //   return "l";

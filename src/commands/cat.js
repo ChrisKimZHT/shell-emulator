@@ -31,10 +31,10 @@ export default function cat(cwd, args) {
 export function catHint(cwd, args) { 
   const arg = args[args.length - 1];
   if (arg === undefined) {
-    return "";
+    return [];
   }
   if (arg.startsWith("-")) {
-    return "";
+    return [];
   }
   return directoryHint(cwd, arg);
 }

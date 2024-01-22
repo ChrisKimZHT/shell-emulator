@@ -19,10 +19,10 @@ export default function uname(cwd, args) {
 export function unameHint(cwd, args) {
   const arg = args[args.length - 1];
   if (arg === "-") {
-    return "a";
+    return ["a"];
   } else if (arg === "--") {
-    return "all";
+    return ["all"];
   } else {
-    return "";
+    return [];
   }
 }

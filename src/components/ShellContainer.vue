@@ -1,7 +1,7 @@
 <template>
   <HistoryLines :history-content="historyContent" />
   <InputLine prompt-user="chriskim" prompt-host="www.chriskim.cn" :current-dir="currentDir"
-    @finished-input="onFinishedInput" @interrupt-input="onInterruptInput" />
+    @finished-input="onFinishedInput" @interrupt-input="onInterruptInput" @re-input="onReInput"/>
 </template>
 
 <script>
@@ -38,6 +38,10 @@ export default {
     },
     onInterruptInput(shellPrompt, command) {
       this.historyContent += `${shellPrompt}${command}^C\n`;
+    },
+    onReInput(shellPrompt, command, content) {
+      this.historyContent += `${shellPrompt}${command}\n`;
+      this.historyContent += `${content}\n`;
     },
     onChangeDir(newDir) {
       this.currentDir = newDir;
