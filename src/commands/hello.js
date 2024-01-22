@@ -1,5 +1,7 @@
 export default function hello(cwd, args) {
-  cwd, args;
+  if (args.length > 0) {
+    return "hwllo: too many arguments";
+  }
   return [
     "<span style='background-color: #999;'><strong> </strong></span>",
     "<span style='background-color: #999; color: red;'><strong>H</strong></span>",

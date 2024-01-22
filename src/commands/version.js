@@ -1,5 +1,7 @@
-export default function version(cwd, cmd) {
-  cwd, cmd;
+export default function version(cwd, args) {
+  if (args.length > 0) {
+    return "version: too many arguments";
+  }
   const res =
     "\n\n" +
     "=======================\n" +

@@ -1,6 +1,8 @@
 /* Ciallo～(∠・ω< )⌒★ */
 export default function ciallo(cwd, args) {
-  cwd, args;
+  if (args.length > 0) {
+    return "ciallo: too many arguments";
+  }
   return [
     "idea from <a href=\"https://ciallo.cc/\">ciallo.cc</a>.",
     "<marquee behavior=\"scroll\" direction=\"right\" scrollamount=\"15\" style=\"line-height: normal;\"><font color=\"aqua\" size=\"11px\">Ciallo～(∠・ω< )⌒☆</font></marquee>",

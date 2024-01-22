@@ -12,7 +12,9 @@ axios.get("https://assets.zouht.com/img/diona/list.json").then((res) => {
 });
 
 export default function meow(cwd, args) {
-  cwd, args;
+  if (args.length > 0) {
+    return "meow: too many arguments";
+  }
   let imgFile = imgList[Math.floor(Math.random() * imgList.length)];
   let imgURL = imgPrefix + imgFile;
   return `<a href="${imgURL}" target="_blank">${imgFile}</a>`;

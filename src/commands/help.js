@@ -13,7 +13,9 @@ const commandList = [
 ].sort();
 
 export default function help(cwd, args) {
-  cwd, args;
+  if (args.length > 0) {
+    return "help: too many arguments";
+  }
   return [
     "Command format: &lt;command&gt; [args...]",
     "Available commands: " + commandList.join(", "),
