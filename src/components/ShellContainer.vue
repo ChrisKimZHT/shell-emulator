@@ -1,7 +1,7 @@
 <template>
   <HistoryLines :history-content="historyContent" />
   <InputLine prompt-user="chriskim" prompt-host="www.chriskim.cn" :current-dir="currentDir"
-    @finished-input="onFinishedInput" @interrupt-input="onInterruptInput" @re-input="onReInput"/>
+    @finished-input="onFinishedInput" @interrupt-input="onInterruptInput" @re-input="onReInput" />
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      historyContent: "Welcome to ChrisKim Shell!\n\n",
+      historyContent: `Welcome to ChrisKim Shell!\n<span style="color: #ccc;">shell-emulator v${window.appVersion}</span>\n\n`,
       currentDir: "/home/chriskim",
     }
   },
