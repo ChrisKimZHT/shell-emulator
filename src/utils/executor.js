@@ -12,6 +12,7 @@ import ciallo from "@/commands/ciallo";
 import help from "@/commands/help";
 import shutdown from "@/commands/shutdown";
 import reboot from "@/commands/reboot";
+import uptime from "@/commands/uptime";
 
 const all_commands = [
   { name: "echo", func: echo },
@@ -28,6 +29,7 @@ const all_commands = [
   { name: "help", func: help },
   { name: "shutdown", func: shutdown },
   { name: "reboot", func: reboot },
+  { name: "uptime", func: uptime }
 ];
 
 export default function executor(cwd, cmd) {
