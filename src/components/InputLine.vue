@@ -11,6 +11,7 @@
 <script>
 import eventBus from "@/utils/eventBus.js";
 import { getHint } from "@/utils/executor.js";
+import checkDesktop from "@/utils/checkDesktop";
 
 export default {
   name: "InputLine",
@@ -31,7 +32,10 @@ export default {
   },
   methods: {
     getFocus() {
-      this.$refs.inputArea.focus()
+      if (document.activeElement !== this.$refs.inputArea) {
+        this.$refs.inputArea.focus();
+        this.moveCursorToEnd();
+      }
     },
     moveCursorToEnd() {
       const el = this.$refs.inputArea;
@@ -55,10 +59,12 @@ export default {
     updateCommand(event) {
       this.currentCommand = event.target.innerText;
       this.curHistoryIndex = this.historyCommands.length;
-      this.$nextTick(() => {
-        this.moveCursorToEnd();
-      });
-      this.updateHint(); 
+      if (!checkDesktop()) { // 奇怪的现象，手机上输入时，光标会跳到最前面
+        this.$nextTick(() => {
+          this.moveCursorToEnd();
+        });
+      }
+      this.updateHint();
     },
     updateHint() {
       this.hintTabCount = 0;
