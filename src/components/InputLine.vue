@@ -55,7 +55,10 @@ export default {
     updateCommand(event) {
       this.currentCommand = event.target.innerText;
       this.curHistoryIndex = this.historyCommands.length;
-      this.updateHint();
+      this.$nextTick(() => {
+        this.moveCursorToEnd();
+      });
+      this.updateHint(); 
     },
     updateHint() {
       this.hintTabCount = 0;
@@ -137,6 +140,7 @@ export default {
     },
   },
   mounted() {
+    eventBus.on("touch", this.getFocus);
     eventBus.on("key-down", this.getFocus);
     eventBus.on("ctrl-c", this.interruptInput);
     eventBus.on("enter", this.finishedInput);
@@ -145,6 +149,7 @@ export default {
     eventBus.on("tab", this.confirmHint);
   },
   unmounted() {
+    eventBus.off("touch", this.getFocus);
     eventBus.off("key-down", this.getFocus);
     eventBus.off("ctrl-c", this.interruptInput);
     eventBus.off("enter", this.finishedInput);

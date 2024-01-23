@@ -6,6 +6,7 @@
 import ShellContainer from "@/components/ShellContainer.vue";
 import eventBus from "@/utils/eventBus.js";
 import initUptime from "./utils/initUptime";
+import checkDesktop from "./utils/checkDesktop";
 
 export default {
   name: "App",
@@ -35,13 +36,20 @@ export default {
         eventBus.emit("tab");
       }
     },
+    onTouch(event) {
+      if (!checkDesktop()) {
+        eventBus.emit("touch");
+      }
+    },
   },
   mounted() {
     document.addEventListener("keydown", this.onKeyDown);
+    document.addEventListener("click", this.onTouch);
     initUptime();
   },
   beforeUnmount() {
     document.removeEventListener("keydown", this.onKeyDown);
+    document.removeEventListener("click", this.onTouch);
   },
 }
 </script>
