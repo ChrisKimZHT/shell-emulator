@@ -1,0 +1,63 @@
+<template>
+  <div class="keyboard">
+    <div class="key" v-on:click="onTab">TAB</div>
+    <div class="div"></div>
+    <div class="key" v-on:click="onEnter">Enter</div>
+    <div class="div"></div>
+    <div class="key" v-on:click="onCtrlC">Ctrl-C</div>
+    <div class="div"></div>
+    <div class="key" v-on:click="onArrowUp">UP</div>
+    <div class="div"></div>
+    <div class="key" v-on:click="onArrowDown">DOWN</div>
+  </div>
+</template>
+
+<script>
+import eventBus from "@/utils/eventBus.js";
+
+export default {
+  name: "SoftKeyBoard",
+  methods: {
+    onTab() {
+      eventBus.emit("tab");
+    },
+    onEnter() {
+      eventBus.emit("enter");
+    },
+    onCtrlC() {
+      eventBus.emit("ctrl-c");
+    },
+    onArrowUp() {
+      eventBus.emit("arrow-up");
+    },
+    onArrowDown() {
+      eventBus.emit("arrow-down");
+    },
+  },
+}
+</script>
+
+<style scoped>
+.keyboard {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(88, 88, 88, 0.5);
+  color: #fff;
+  text-align: center;
+  user-select: none;
+  padding: 10px 0px;
+}
+
+.key {
+  display: inline-block;
+  width: calc(20% - 2px);
+}
+
+.div {
+  display: inline;
+  box-sizing: border-box;
+  border-left: 2px solid hsla(0, 0%, 100%, 0.6);
+}
+</style>

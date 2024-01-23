@@ -1,10 +1,12 @@
 <template>
   <ShellContainer />
+  <SoftKeyBoard v-if="isMobile" />
 </template>
 
 <script>
 import ShellContainer from "@/components/ShellContainer.vue";
 import eventBus from "@/utils/eventBus.js";
+import SoftKeyBoard from "@/components/SoftKeyBoard.vue";
 import initUptime from "./utils/initUptime";
 import checkDesktop from "./utils/checkDesktop";
 
@@ -12,6 +14,7 @@ export default {
   name: "App",
   components: {
     ShellContainer,
+    SoftKeyBoard
   },
   methods: {
     onKeyDown(event) {
@@ -41,6 +44,11 @@ export default {
         eventBus.emit("touch");
       }
     },
+  },
+  data() {
+    return {
+      isMobile: !checkDesktop(),      
+    };
   },
   mounted() {
     document.addEventListener("keydown", this.onKeyDown);
