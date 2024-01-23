@@ -13,11 +13,15 @@ export default function directoryHint(cwd, cmd) {
   if (dirList === null) {
     return [];
   }
-  const result = [];
+  const result_normal = [], result_hidden = [];
   for (const dir of dirList) {
     if (dir.startsWith(suffix)) {
-      result.push(dir.slice(suffix.length));
+      if (dir.startsWith(".")) {
+        result_hidden.push(dir.slice(suffix.length));
+      } else {
+        result_normal.push(dir.slice(suffix.length));
+      }
     }
   }
-  return result;
+  return result_normal.concat(result_hidden); // 保证正常文件在前
 }
