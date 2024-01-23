@@ -42,7 +42,7 @@ export function listDirectory(path) {
   if (typeof current === "function") {
     return null;
   }
-  return Object.keys(current);
+  return Object.keys(current).sort();
 }
 
 export function listDirectoryWithTypes(path) {
@@ -58,7 +58,7 @@ export function listDirectoryWithTypes(path) {
     return null;
   }
   const result = []
-  for (const key of Object.keys(current)) {
+  for (const key of Object.keys(current).sort()) {
     result.push([typeof current[key] === "function" ? "f" : "d", key]);
   }
   return result;
