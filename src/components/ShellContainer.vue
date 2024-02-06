@@ -32,17 +32,23 @@ export default {
       const result = executor(this.currentDir, command);
       if (result !== undefined && result !== null && result.length > 0) {
         this.historyContent += `${result}\n`;
-        this.$nextTick(() => {
-          document.querySelector("#input-line").scrollIntoView();
-        });
       }
+      this.$nextTick(() => {
+        document.querySelector("#input-line").scrollIntoView();
+      });
     },
     onInterruptInput(shellPrompt, command) {
       this.historyContent += `${shellPrompt}${command}^C\n`;
+      this.$nextTick(() => {
+        document.querySelector("#input-line").scrollIntoView();
+      });
     },
     onReInput(shellPrompt, command, content) {
       this.historyContent += `${shellPrompt}${command}\n`;
       this.historyContent += `${content}\n`;
+      this.$nextTick(() => {
+        document.querySelector("#input-line").scrollIntoView();
+      });
     },
     onChangeDir(newDir) {
       this.currentDir = newDir;
