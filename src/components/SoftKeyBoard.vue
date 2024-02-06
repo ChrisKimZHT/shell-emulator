@@ -1,4 +1,5 @@
 <template>
+  <div class="padding"></div>
   <div class="keyboard">
     <div class="key" v-on:click="onTab">TAB</div>
     <div class="div"></div>
@@ -64,5 +65,10 @@ export default {
   display: inline;
   box-sizing: border-box;
   border-left: 2px solid hsla(0, 0%, 100%, 0.6);
+}
+
+.padding {
+  height: 60px;
+  width: 100%;
 }
 </style>
