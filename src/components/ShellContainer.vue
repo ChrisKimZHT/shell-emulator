@@ -7,7 +7,6 @@
 <script>
 import HistoryLines from "@/components/HistoryLines.vue";
 import InputLine from "@/components/InputLine.vue";
-import checkDesktop from "@/utils/checkDesktop";
 import eventBus from "@/utils/eventBus.js";
 import executor from "@/utils/executor.js";
 
@@ -57,9 +56,6 @@ export default {
   mounted() {
     eventBus.on("ctrl-l", this.onClear);
     eventBus.on("change-dir", this.onChangeDir);
-    if (!checkDesktop()) {
-      this.historyContent += "<span style='color: orange;'>[Warning] Mobile browser may occur some issues, recommend to use desktop browser.</span>\n\n";
-    }
   },
   beforeUnmount() {
     eventBus.off("ctrl-l", this.onClear);
