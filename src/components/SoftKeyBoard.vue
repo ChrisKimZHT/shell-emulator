@@ -52,12 +52,12 @@ export default {
   color: #fff;
   text-align: center;
   user-select: none;
-  padding: 10px 0px;
 }
 
 .key {
   display: inline-block;
   width: calc(20% - 2px);
+  padding: 10px 0px;
 }
 
 .div {
