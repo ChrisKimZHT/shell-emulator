@@ -39,7 +39,8 @@ export default {
         eventBus.emit("tab");
       }
     },
-    onTouch(event) {
+    // 鼠标点击和触摸屏点击都会触发click，但是过滤掉了桌面端的点击
+    onClick(event) {
       if (!checkDesktop()) {
         eventBus.emit("touch");
       }
@@ -52,12 +53,12 @@ export default {
   },
   mounted() {
     document.addEventListener("keydown", this.onKeyDown);
-    document.addEventListener("click", this.onTouch);
+    document.addEventListener("click", this.onClick);
     initUptime();
   },
   beforeUnmount() {
     document.removeEventListener("keydown", this.onKeyDown);
-    document.removeEventListener("click", this.onTouch);
+    document.removeEventListener("click", this.onClick);
   },
 }
 </script>

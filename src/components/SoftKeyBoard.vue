@@ -18,19 +18,24 @@ import eventBus from "@/utils/eventBus.js";
 export default {
   name: "SoftKeyBoard",
   methods: {
-    onTab() {
+    onTab(event) {
+      event.stopPropagation();
       eventBus.emit("tab");
     },
-    onEnter() {
+    onEnter(event) {
+      event.stopPropagation();
       eventBus.emit("enter");
     },
-    onCtrlC() {
+    onCtrlC(event) {
+      event.stopPropagation();
       eventBus.emit("ctrl-c");
     },
-    onArrowUp() {
+    onArrowUp(event) {
+      event.stopPropagation();
       eventBus.emit("arrow-up");
     },
-    onArrowDown() {
+    onArrowDown(event) {
+      event.stopPropagation();
       eventBus.emit("arrow-down");
     },
   },
