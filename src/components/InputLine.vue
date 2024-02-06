@@ -35,6 +35,9 @@ export default {
       }
     },
     moveCursorToEnd() {
+      if (document.activeElement !== this.$refs.inputArea) {
+        return;
+      }
       const el = this.$refs.inputArea;
       const range = document.createRange();
       const sel = window.getSelection();
