@@ -1,9 +1,7 @@
 <template>
   <div class="input-line" id="input-line">
     <span class="shell-prompt">{{ getShellPrompt() }}</span>
-    <span class="input-area" ref="inputArea" contenteditable="true" @input="updateCommand">
-      {{ currentCommand }}
-    </span>
+    <span class="input-area" ref="inputArea" contenteditable="true" @input="onInput"></span>
     <span class="hint-area"> {{ displayHint }}</span>
   </div>
 </template>
@@ -11,7 +9,6 @@
 <script>
 import eventBus from "@/utils/eventBus.js";
 import { getHint } from "@/utils/executor.js";
-import checkDesktop from "@/utils/checkDesktop";
 
 export default {
   name: "InputLine",
@@ -56,14 +53,14 @@ export default {
       }
       return `[${this.promptUser}@${this.promptHost} ${promptDir}]$ `;
     },
-    updateCommand(event) {
-      this.currentCommand = event.target.innerText;
+    // 该函数会导致光标移动到最开始，如果需要移动到最后，需要在调用该函数后调用moveCursorToEnd
+    updateCurrentCommand(val) {
+      this.currentCommand = val;
+      this.$refs.inputArea.innerText = val;
+    },
+    onInput() {
+      this.currentCommand = this.$refs.inputArea.innerText;
       this.curHistoryIndex = this.historyCommands.length;
-      if (!checkDesktop()) { // 奇怪的现象，手机上输入时，光标会跳到最前面
-        this.$nextTick(() => {
-          this.moveCursorToEnd();
-        });
-      }
       this.updateHint();
     },
     updateHint() {
@@ -87,11 +84,9 @@ export default {
       if (this.currentHint.length === 0) {
         // do nothing
       } else if (this.currentHint.length === 1) {
-        this.currentCommand += this.displayHint;
+        this.updateCurrentCommand(this.currentCommand + this.displayHint);
         this.updateHint();
-        this.$nextTick(() => {
-          this.moveCursorToEnd();
-        });
+        this.moveCursorToEnd();
       } else {
         if (this.hintTabCount === 0) {
           this.hintTabCount++;
@@ -104,35 +99,31 @@ export default {
       this.$emit("finished-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
       this.historyCommands.push(this.currentCommand);
       this.curHistoryIndex = this.historyCommands.length;
-      this.currentCommand = "";
+      this.updateCurrentCommand("");
       this.updateHint();
     },
     interruptInput() {
       this.$emit("interrupt-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
-      this.currentCommand = "";
+      this.updateCurrentCommand("");
       this.updateHint();
     },
     onPrevHistory() {
       if (this.curHistoryIndex > 0) {
         this.curHistoryIndex--;
-        this.currentCommand = this.historyCommands[this.curHistoryIndex];
+        this.updateCurrentCommand(this.historyCommands[this.curHistoryIndex]);
       }
-      this.$nextTick(() => {
-        this.moveCursorToEnd();
-      });
+      this.moveCursorToEnd();
       this.updateHint();
     },
     onNextHistory() {
       if (this.curHistoryIndex < this.historyCommands.length - 1) {
         this.curHistoryIndex++;
-        this.currentCommand = this.historyCommands[this.curHistoryIndex];
+        this.updateCurrentCommand(this.historyCommands[this.curHistoryIndex]);
       } else {
         this.curHistoryIndex = this.historyCommands.length;
-        this.currentCommand = "";
+        this.updateCurrentCommand("");
       }
-      this.$nextTick(() => {
-        this.moveCursorToEnd();
-      });
+      this.moveCursorToEnd();
       this.updateHint();
     },
     escapeHtml(text) {
