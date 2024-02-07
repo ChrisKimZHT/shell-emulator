@@ -1,4 +1,4 @@
-import { tree } from "./fileSystemTree";
+const tree = window.fsTree;
 
 export function getFileContent(path) {
   const pathSplit = path.split("/").map(x => x.trim()).filter(x => x.length > 0);

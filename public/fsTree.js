@@ -1,4 +1,4 @@
-export const tree = {
+window.fsTree = {
   "boot": {
     "config": nothing,
     "efi": {
