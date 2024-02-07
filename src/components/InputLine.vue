@@ -9,6 +9,7 @@
 <script>
 import eventBus from "@/utils/eventBus.js";
 import { getHint } from "@/utils/executor.js";
+import getHomeDir from "@/utils/getHomeDir";
 
 export default {
   name: "InputLine",
@@ -48,7 +49,7 @@ export default {
     },
     getShellPrompt() {
       let promptDir = "";
-      if (this.currentDir === "/home/chriskim") {
+      if (this.currentDir === getHomeDir()) {
         promptDir = "~";
       } else {
         const tmp = this.currentDir.split("/").pop();

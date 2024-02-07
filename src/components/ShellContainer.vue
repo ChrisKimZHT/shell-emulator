@@ -1,7 +1,7 @@
 <template>
   <HistoryLines :history-content="historyContent" />
-  <InputLine prompt-user="chriskim" prompt-host="www.chriskim.cn" :current-dir="currentDir"
-    @finished-input="onFinishedInput" @interrupt-input="onInterruptInput" @re-input="onReInput" />
+  <InputLine :prompt-user="username" :prompt-host="hostname" :current-dir="currentDir" @finished-input="onFinishedInput"
+    @interrupt-input="onInterruptInput" @re-input="onReInput" />
 </template>
 
 <script>
@@ -9,6 +9,7 @@ import HistoryLines from "@/components/HistoryLines.vue";
 import InputLine from "@/components/InputLine.vue";
 import eventBus from "@/utils/eventBus.js";
 import executor from "@/utils/executor.js";
+import getHomeDir from "@/utils/getHomeDir";
 
 export default {
   name: "ShellContainer",
@@ -19,7 +20,9 @@ export default {
   data() {
     return {
       historyContent: `Welcome to ChrisKim Shell!\n<span style="color: #ccc;">shell-emulator v${window.appVersion}</span>\n\n`,
-      currentDir: "/home/chriskim",
+      currentDir: getHomeDir(),
+      username: window.config.username,
+      hostname: window.config.hostname
     }
   },
   methods: {

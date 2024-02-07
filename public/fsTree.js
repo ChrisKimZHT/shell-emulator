@@ -112,7 +112,7 @@ window.fsTree = {
   },
   "etc": {},
   "home": {
-    "chriskim": {
+    "defaultuser": {
       "readme.txt": readme
     }
   },
