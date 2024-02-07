@@ -55,7 +55,10 @@ export default {
         const tmp = this.currentDir.split("/").pop();
         promptDir = tmp.length > 0 ? tmp : "/";
       }
-      return `[${this.promptUser}@${this.promptHost} ${promptDir}]$ `;
+      return window.config.prompt
+        .replace(/{user}/g, this.promptUser)
+        .replace(/{host}/g, this.promptHost)
+        .replace(/{cwd}/g, promptDir);
     },
     // 该函数会导致光标移动到最开始，如果需要移动到最后，需要在调用该函数后调用moveCursorToEnd
     updateCurrentCommand(val) {
