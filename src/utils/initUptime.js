@@ -3,7 +3,7 @@ export default function initUptime() {
     localStorage.setItem("uptime", Date.now());
     return;
   }
-  if (Date.now() - localStorage.getItem("uptime") > 3600000) {
+  if (Date.now() - localStorage.getItem("uptime") > window.config.uptimeLimitMS) {
     localStorage.setItem("uptime", Date.now());
     return;
   }

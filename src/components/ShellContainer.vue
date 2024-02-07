@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      historyContent: `Welcome to ChrisKim Shell!\n<span style="color: #ccc;">shell-emulator v${window.appVersion}</span>\n\n`,
+      historyContent: window.config.initialContent,
       currentDir: getHomeDir(),
     }
   },
