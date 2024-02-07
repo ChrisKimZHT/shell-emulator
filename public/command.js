@@ -2,6 +2,7 @@
 
 // 2. 然后在这里import导入你的命令函数以及可选的提示函数。
 import ciallo from "./cmd/ciallo.js";
+import debug from "./cmd/debug.js";
 import echo from "./cmd/echo.js";
 import hello from "./cmd/hello.js";
 import help from "./cmd/help.js";
@@ -14,6 +15,7 @@ import uptime from "./cmd/uptime.js";
 // 3. 最后将你的命令函数和可选的提示函数注册到列表中。
 window.externalCommand = [
   { name: "ciallo", func: ciallo },
+  { name: "debug", func: debug },
   { name: "echo", func: echo },
   { name: "hello", func: hello },
   { name: "help", func: help },
