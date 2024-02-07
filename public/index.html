@@ -7,8 +7,9 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script>window.appVersion = "1.2.0"</script>
-    <script src="<%= BASE_URL %>config.js"></script>
-    <script src="<%= BASE_URL %>fsTree.js"></script>
+    <script src="<%= BASE_URL %>config.js" type="module"></script>
+    <script src="<%= BASE_URL %>fsTree.js" type="module"></script>
+    <script src="<%= BASE_URL %>command.js" type="module"></script>
   </head>
   <body>
     <noscript>

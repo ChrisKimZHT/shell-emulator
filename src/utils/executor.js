@@ -1,36 +1,16 @@
-import echo from "@/commands/echo.js";
 import clear from "@/commands/clear.js";
-import pwd from "@/commands/pwd.js";
 import cd, { cdHint } from "@/commands/cd.js";
 import ls, { lsHint } from "@/commands/ls.js";
 import cat, { catHint } from "@/commands/cat";
-import meow from "@/commands/meow";
 import version from "@/commands/version";
-import uname, { unameHint } from "@/commands/uname";
-import hello from "@/commands/hello";
-import ciallo from "@/commands/ciallo";
-import help from "@/commands/help";
-import shutdown from "@/commands/shutdown";
-import reboot from "@/commands/reboot";
-import uptime from "@/commands/uptime";
 
 const all_commands = [
-  { name: "echo", func: echo },
   { name: "clear", func: clear },
-  { name: "pwd", func: pwd },
   { name: "cd", func: cd, hint: cdHint },
   { name: "ls", func: ls, hint: lsHint },
   { name: "cat", func: cat, hint: catHint },
-  { name: "meow", func: meow},
   { name: "version", func: version },
-  { name: "uname", func: uname, hint: unameHint },
-  { name: "hello", func: hello },
-  { name: "ciallo", func: ciallo},
-  { name: "help", func: help },
-  { name: "shutdown", func: shutdown },
-  { name: "reboot", func: reboot },
-  { name: "uptime", func: uptime }
-];
+].concat(window.externalCommand);
 
 export default function executor(cwd, cmd) {
   const cmdSplit = cmd.split(" ").map(x => x.trim()).filter(x => x.length > 0);

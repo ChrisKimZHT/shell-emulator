@@ -16,7 +16,7 @@ export default function ciallo(cwd, args) {
   if (args.length > 0) {
     return "ciallo: too many arguments";
   }
-  const result = ["idea from <a href=\"https://ciallo.cc/\">ciallo.cc</a>."];
+  const result = ["idea from <a href=\"https://ciallo.cc/\" target=\"_blank\">ciallo.cc</a>."];
   for (let i = 0; i < 10; i++) {
     result.push(randomOne());
   }
