@@ -1,7 +1,7 @@
 <template>
   <HistoryLines :history-content="historyContent" />
-  <InputLine :prompt-user="username" :prompt-host="hostname" :current-dir="currentDir" @finished-input="onFinishedInput"
-    @interrupt-input="onInterruptInput" @re-input="onReInput" />
+  <InputLine :current-dir="currentDir" @finished-input="onFinishedInput" @interrupt-input="onInterruptInput"
+    @re-input="onReInput" />
 </template>
 
 <script>
@@ -21,8 +21,6 @@ export default {
     return {
       historyContent: `Welcome to ChrisKim Shell!\n<span style="color: #ccc;">shell-emulator v${window.appVersion}</span>\n\n`,
       currentDir: getHomeDir(),
-      username: window.config.username,
-      hostname: window.config.hostname
     }
   },
   methods: {

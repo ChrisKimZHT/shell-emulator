@@ -14,12 +14,12 @@ import getHomeDir from "@/utils/getHomeDir";
 export default {
   name: "InputLine",
   props: [
-    "promptUser",
-    "promptHost",
     "currentDir",
   ],
   data() {
     return {
+      promptUser: window.config.username,
+      promptHost: window.config.hostname,
       currentCommand: "",
       currentHint: [],
       displayHint: "",
