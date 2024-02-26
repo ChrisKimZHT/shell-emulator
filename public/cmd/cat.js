@@ -1,8 +1,7 @@
-import getAbsolutePath from "@/utils/getAbsolutePath.js";
-import { getFileContent, checkFile, checkDirectory } from "../utils/fileSystem.js";
-import directoryHint from "@/utils/directoryHint.js";
+export default function cat(cwd, args, utils) {
+  const { getAbsolutePath } = utils;
+  const { checkDirectory, checkFile, getFileContent } = utils.fileSystem;
 
-export default function cat(cwd, args) {
   for (const arg of args) {
     if (arg.startsWith("-") || arg.startsWith("--")) {
       return `ls: unrecognized option '${arg}'`;
@@ -14,7 +13,7 @@ export default function cat(cwd, args) {
   }
   for (const arg of args) {
     const abosolutePath = getAbsolutePath(cwd, arg);
-    if (checkDirectory(abosolutePath)) { 
+    if (checkDirectory(abosolutePath)) {
       result.push(`cat: ${abosolutePath}: Is a directory`);
       continue;
     }
@@ -28,7 +27,8 @@ export default function cat(cwd, args) {
   return result.join("\n");
 }
 
-export function catHint(cwd, args) { 
+export function catHint(cwd, args, utils) {
+  const { directoryHint } = utils;
   const arg = args[args.length - 1];
   if (arg === undefined) {
     return [];

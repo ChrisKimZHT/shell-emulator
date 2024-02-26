@@ -1,6 +1,5 @@
-import eventBus from "@/utils/eventBus";
-
-export default function clear(cwd, args) {
+export default function clear(cwd, args, utils) {
+  const { eventBus } = utils;
   if (args.length > 0) {
     return "clear: too many arguments";
   }

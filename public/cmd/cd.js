@@ -1,9 +1,7 @@
-import getAbsolutePath from "@/utils/getAbsolutePath.js";
-import { checkDirectory } from "@/utils/fileSystem.js";
-import directoryHint from "@/utils/directoryHint.js";
-import eventBus from "@/utils/eventBus";
+export default function cd(cwd, cmd, utils) {
+  const { getAbsolutePath, eventBus } = utils;
+  const { checkDirectory } = utils.fileSystem;
 
-export default function cd(cwd, cmd) {
   if (cmd.length > 1) {
     return "cd: too many arguments";
   }
@@ -15,7 +13,9 @@ export default function cd(cwd, cmd) {
   return;
 }
 
-export function cdHint(cwd, cmd) {
+export function cdHint(cwd, cmd, utils) {
+  const { directoryHint } = utils;
+
   if (cmd.length > 1) {
     return [];
   }

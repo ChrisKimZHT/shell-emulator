@@ -1,4 +1,4 @@
-const all_commands = window.externalCommand;
+const commands = window.externalCommand;
 
 const utilsEntrance = {
   "checkDesktop": require("./checkDesktop").default,
@@ -17,7 +17,7 @@ export default function executor(cwd, cmd) {
     return;
   }
   const cmdArgs = cmdSplit.slice(1);
-  for (const command of all_commands) {
+  for (const command of commands) {
     if (command.name === cmdName) {
       return command.func(cwd, cmdArgs, utilsEntrance);
     }
@@ -34,7 +34,7 @@ export function getHint(cwd, cmd) {
   if (cmd.endsWith(" ") || cmd.endsWith("\u00a0")) { // \u00a0 is &nbsp;
     return [];
   }
-  for (const command of all_commands) {
+  for (const command of commands) {
     if (command.name === cmdName) {
       return command.hint?.(cwd, cmdSplit.slice(1), utilsEntrance) ?? [];
     }
@@ -43,7 +43,7 @@ export function getHint(cwd, cmd) {
     return [];
   }
   let hint = [];
-  for (const command of all_commands) {
+  for (const command of commands) {
     if (command.name.startsWith(cmdName)) {
       hint.push(command.name.slice(cmdName.length));
     }
