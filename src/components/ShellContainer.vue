@@ -8,8 +8,8 @@
 import HistoryLines from "@/components/HistoryLines.vue";
 import InputLine from "@/components/InputLine.vue";
 import eventBus from "@/utils/eventBus.js";
-import executor from "@/utils/executor.js";
-import getHomeDir from "@/utils/getHomeDir";
+import executor from "@/executor.js";
+import getHomeDir from "@/utils/getHomeDir.js";
 
 export default {
   name: "ShellContainer",

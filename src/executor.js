@@ -1,13 +1,13 @@
 const commands = window.externalCommand;
 
 const utilsEntrance = {
-  "checkDesktop": require("./checkDesktop").default,
-  "directoryHint": require("./directoryHint").default,
-  "eventBus": require("./eventBus").default,
-  "fileSystem": require("./fileSystem"),
-  "getAbsolutePath": require("./getAbsolutePath").default,
-  "getHomeDir": require("./getHomeDir").default,
-  "initUptime": require("./initUptime").default,
+  "checkDesktop": require("./utils/checkDesktop").default,
+  "directoryHint": require("./utils/directoryHint").default,
+  "eventBus": require("./utils/eventBus").default,
+  "fileSystem": require("./utils/fileSystem"),
+  "getAbsolutePath": require("./utils/getAbsolutePath").default,
+  "getHomeDir": require("./utils/getHomeDir").default,
+  "initUptime": require("./utils/initUptime").default,
 };
 
 export default function executor(cwd, cmd) {
