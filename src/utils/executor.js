@@ -36,7 +36,7 @@ export function getHint(cwd, cmd) {
   }
   for (const command of all_commands) {
     if (command.name === cmdName) {
-      return command.hint?.(cwd, cmdSplit.slice(1)) ?? [];
+      return command.hint?.(cwd, cmdSplit.slice(1), utilsEntrance) ?? [];
     }
   }
   if (cmdSplit.length > 1) {
