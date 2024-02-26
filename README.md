@@ -7,7 +7,7 @@
 - 展示页面：https://www.chriskim.cn/
 - 灵感来源：https://axton.cc/ （似乎已经挂了）
 
-### 配置文件
+## 配置文件
 
 ```js
 window.config = {
@@ -24,89 +24,175 @@ window.config = {
 }
 ```
 
-### 文件系统
+## 文件系统
 
 文件系统实现在 `fsTree.js` 和 `fsFile.js` 中，分别代表文件系统的树结构和储存的文件。
 
-**文件**
+#### 文件
 
 为了灵活性，所有文件均使用函数来进行定义，文件内容为函数返回的字符串。因此文件可以是动态的，如果只需要静态文件可以直接 return 字符串。
 
-例如要定义一个文件 B 内容为 foobar，则编写以下函数：
+例如要定义一个文件 file 内容为 foobar，则编写以下函数：
 
 ```js
-export function B() { return "foobar"; }
+export function file() { return "foobar"; }
 ```
 
-**树结构**
+#### 树结构
 
 树结构使用嵌套对象完成，如果要实现结构：
 
 ```
-├─A
-│ ├─B
-│ └─C
-└─D
+├─dirA/
+│ ├─fileA
+│ └─dirB/
+└─fileB
 ```
 
 则对应的对象为：
 
 ```js
-import { B, C, D } from './fsFile.js';
+import { fileA, fileB } from './fsFile.js';
 
 window.fsTree = {
-  "A": {
-    "B": B,
-    "C": C
+  "dirA": {
+    "fileA": fileA,
+    "dirB": {}
   },
-  "D": D
+  "fileB": fileB
 };
 ```
 
-### 添加命令
+## 添加命令
 
-> 目前版本只有**不依赖于项目内部函数**的命令可以在外部配置文件进行添加。
-> 
-> 如果你想要实现的功能需要调用项目内部函数（例如 fileSystem 处理工具）则暂时无法通过修改 release 的配置文件完成，需要 clone 本工程进行开发后再进行编译。
-> 
-> 在后续版本可能会使用某些方式，将内部函数向外提供一个接口，方便对命令的扩充。
+>  命令实现在 `cmd` 目录，命令注册在 `command.js` 中。如果要添加一个新命令，流程如下：
+> 1. 在 `cmd` 目录下创建你的命令，实现命令函数，可选实现提示函数。
+> 2. 在 `command.js` 导入你的命令函数以及可选的提示函数。
+> 3. 将你的命令函数和可选的提示函数注册到 `externalCommand` 列表中。
 
-命令实现在 `cmd` 目录，命令注册在 `command.js` 中。如果要添加一个新命令，流程如下：
+#### 传入参数
 
-1. 在 `cmd` 目录下创建你的命令，实现命令函数，可选实现提示函数。
-2. 在 `command.js` 导入你的命令函数以及可选的提示函数。
-3. 将你的命令函数和可选的提示函数注册到 `externalCommand` 列表中。
+可使用 `debug` 指令查看
 
-**指令本体**
+- `cwd`: 执行指令时的工作目录字符串。
+- `args`: 指令参数字符串列表。
+- `utils`: 框架提供的工具函数，具体用法见下文。
+
+#### 指令本体
 
 ```js
-export default function foobar(cwd, args) {
-  return ... ;
+export default function foobar(cwd: string, args: string[], utils: object): string {
+  return "<div>this is result</div>" ;
 }
 ```
 
-参数（可使用 `debug` 指令查看）：
-
-- `cwd`: 执行指令时的工作目录字符串，例如 `/home/defaultuser`.
-- `args`: 指令参数字符串列表，例如 `["--a", "-b", "c"]`.
-
-返回值：
-
-- 字符串，代表执行后的返回结果，可以包含 HTML 语法，例如 `"<div>awa</div>"`.
-
-**指令提示**
+#### 指令提示
 
 ```js
-export default function foobarHint(cwd, args) {
-  return [...] ;
+export function foobarHint(cwd: string, args: string[], utils: object): string[] {
+  return ["hint 1", "hint 2"] ;
 }
 ```
 
-参数（可使用 `debug` 指令查看）：
+## 工具函数
 
-- `cwd`: 执行指令时的工作目录字符串，例如 `/home/defaultuser`.
-- `args`: 指令参数字符串列表，例如 `["--a", "-b", "c"]`.
+#### 总览
 
-返回值：
+```js
+const utilsEntrance = {
+  "checkDesktop": require("./utils/checkDesktop").default,
+  "directoryHint": require("./utils/directoryHint").default,
+  "eventBus": require("./utils/eventBus").default,
+  "fileSystem": require("./utils/fileSystem"),
+  "getAbsolutePath": require("./utils/getAbsolutePath").default,
+  "getHomeDir": require("./utils/getHomeDir").default,
+  "initUptime": require("./utils/initUptime").default,
+};
+```
 
-- 列表，代表可能的补全结果，可以为空，例如 `["a", "all"]`.
+#### checkDesktop.js
+
+```js
+export default function checkDesktop(): boolean
+```
+
+- 若是桌面端返回 `true`，移动端返回 `false`
+
+#### directoryHint.js
+
+```js
+export default function directoryHint(cwd: string, cmd: string): string[]
+```
+
+- `cwd`: 当前工作目录
+- `cmd`: 用户输入的部分
+- `return`: 可能的提示列表
+
+#### eventBus.js
+
+```js
+const eventBus = mitt();
+export default eventBus;
+```
+
+就是 mitt 库的 mitt 对象，具体用法见 mitt 库。框架内内置的事件名为：`enter`, `ctrl-c`, `ctrl-l`, `arrow-up`, `arrow-down`, `tab`, `touch`, `interrupt-input`, `finished-input`, `re-input`, `change-dir`.
+
+#### fileSystem.js
+
+```js
+export function getFileContent(path: string): string | null
+```
+
+获取指定路径文件的内容，返回 null 代表文件不存在。
+
+```js
+export function checkDirectory(path: string): boolean
+```
+
+检查指定路径是否为目录。
+
+```js
+export function checkFile(path: string): boolean
+```
+
+检查指定路径是否为文件。
+
+```js
+export function listDirectory(path: string): string[] | null
+```
+
+获取指定路径目录下的所有文件和目录（已排序），返回 null 代表目录不存在。
+
+```js
+export function listDirectoryWithTypes(path: string): string[][] | null
+```
+
+获取指定路径目录下的所有文件和目录（已排序且标记类型），返回 null 代表目录不存在。
+
+列表每一项为长度为 2 的列表，第 1 项为 "f" 或 "d" 含义为文件或路径，第二项为名称。
+
+#### getAbsolutePath.js
+
+```js
+export default function getAbsolutePath(cwd: string, dest: string): string
+```
+
+- `cwd`: 当前工作目录
+- `dest`: 目的路径（相对 / 绝对 / 缩写）
+- `return`: 拼接好的绝对路径
+
+#### getHomeDir.js
+
+```js
+export default function getHomeDir(): string
+```
+
+返回当前配置下的用户家目录。
+
+#### initUptime.js
+
+```js
+export default function initUptime(): void
+```
+
+初始化 Uptime: 如果 Uptime 还未设定或 Uptime 超过最大限制，则将其更新为现在。
