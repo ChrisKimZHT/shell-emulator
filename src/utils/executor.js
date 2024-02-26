@@ -1,16 +1,14 @@
-import clear from "@/commands/clear.js";
-import cd, { cdHint } from "@/commands/cd.js";
-import ls, { lsHint } from "@/commands/ls.js";
-import cat, { catHint } from "@/commands/cat";
-import version from "@/commands/version";
+const all_commands = window.externalCommand;
 
-const all_commands = [
-  { name: "clear", func: clear },
-  { name: "cd", func: cd, hint: cdHint },
-  { name: "ls", func: ls, hint: lsHint },
-  { name: "cat", func: cat, hint: catHint },
-  { name: "version", func: version },
-].concat(window.externalCommand);
+const utilsEntrance = {
+  "checkDesktop": require("./checkDesktop").default,
+  "directoryHint": require("./directoryHint").default,
+  "eventBus": require("./eventBus").default,
+  "fileSystem": require("./fileSystem"),
+  "getAbsolutePath": require("./getAbsolutePath").default,
+  "getHomeDir": require("./getHomeDir").default,
+  "initUptime": require("./initUptime").default,
+};
 
 export default function executor(cwd, cmd) {
   const cmdSplit = cmd.split(" ").map(x => x.trim()).filter(x => x.length > 0);
@@ -21,7 +19,7 @@ export default function executor(cwd, cmd) {
   const cmdArgs = cmdSplit.slice(1);
   for (const command of all_commands) {
     if (command.name === cmdName) {
-      return command.func(cwd, cmdArgs);
+      return command.func(cwd, cmdArgs, utilsEntrance);
     }
   }
   return `${cmdName}: command not found`;
