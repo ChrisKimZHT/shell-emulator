@@ -1,9 +1,7 @@
-import getAbsolutePath from "@/utils/getAbsolutePath";
-import { checkDirectory } from "@/utils/fileSystem";
-import { listDirectoryWithTypes } from "@/utils/fileSystem";
-import directoryHint from "@/utils/directoryHint";
+export default function ls(cwd, args, utils) {
+  const { getAbsolutePath } = utils;
+  const { checkDirectory, listDirectoryWithTypes } = utils.fileSystem;
 
-export default function ls(cwd, args) {
   let isAll = false;
   for (const arg of args) {
     if (arg.startsWith("-") || arg.startsWith("--")) {
@@ -52,7 +50,8 @@ export default function ls(cwd, args) {
   return error.concat(result).join("\n");
 }
 
-export function lsHint(cwd, args) {
+export function lsHint(cwd, args, utils) {
+  const { directoryHint } = utils;
   const arg = args[args.length - 1];
   if (arg === undefined) {
     return [];

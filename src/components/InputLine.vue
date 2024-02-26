@@ -8,8 +8,8 @@
 
 <script>
 import eventBus from "@/utils/eventBus.js";
-import { getHint } from "@/utils/executor.js";
-import getHomeDir from "@/utils/getHomeDir";
+import { getHint } from "@/executor.js";
+import getHomeDir from "@/utils/getHomeDir.js";
 
 export default {
   name: "InputLine",
