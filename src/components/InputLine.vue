@@ -98,7 +98,12 @@ export default {
         if (this.hintTabCount === 0) {
           this.hintTabCount++;
         } else {
-          this.$emit("re-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand), this.currentHint.join("\t"));
+          const tmp = this.currentHint;
+          for (let i = 0; i < tmp.length; i++) {
+            const split = tmp[i].split("/"); // 治标不治本修复下算了
+            tmp[i] = split[split.length - 1];
+          }
+          this.$emit("re-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand), tmp.join("\t\t"));
         }
       }
     },
