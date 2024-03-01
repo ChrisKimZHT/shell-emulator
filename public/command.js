@@ -7,6 +7,7 @@ import clear from "./cmd/clear.js";
 import debug from "./cmd/debug.js";
 import echo from "./cmd/echo.js";
 import help from "./cmd/help.js";
+import ll, { llHint } from "./cmd/ll.js";
 import ls, { lsHint } from "./cmd/ls.js";
 import pwd from "./cmd/pwd.js";
 import reboot from "./cmd/reboot.js";
@@ -23,6 +24,7 @@ window.externalCommand = [
   { name: "debug", func: debug },
   { name: "echo", func: echo },
   { name: "help", func: help },
+  { name: "ll", func: ll, hint: llHint },
   { name: "ls", func: ls, hint: lsHint },
   { name: "pwd", func: pwd },
   { name: "reboot", func: reboot },

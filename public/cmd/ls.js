@@ -44,7 +44,7 @@ export default function ls(cwd, args, utils) {
         text.push(`<b>${name}</b>`);
       }
     }
-    result.push(text.join("\t"));
+    result.push(text.join("\t\t"));
     flag = true;
   }
   return error.concat(result).join("\n");
