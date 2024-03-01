@@ -1,11 +1,12 @@
 export function readme() {
   return [
-    "##############################",
-    "# Welcome to ChrisKim shell! #",
-    "##############################",
+    "#############################",
+    "# Welcome to shell-emulator #",
+    "#############################",
     "",
-    "It's a simple shell emulator made with Vue.js and Node.js.",
-    "You can explore and play with it.",
+    "It's a simple shell emulator made with Vue.js.",
+    "Author: <a href=\"https://github.com/ChrisKimZHT\" target=\"_blank\">ChrisKimZHT</a> | GitHub: <a href=\"https://github.com/ChrisKimZHT/shell-emulator\" target=\"_blank\">shell-emulator</a>",
+    "",
   ].join("\n");
 }
 
