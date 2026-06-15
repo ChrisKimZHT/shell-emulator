@@ -4,7 +4,7 @@ export default function cat(cwd, args, utils) {
 
   for (const arg of args) {
     if (arg.startsWith("-") || arg.startsWith("--")) {
-      return `ls: unrecognized option '${arg}'`;
+      return `cat: unrecognized option '${arg}'`;
     }
   }
   const result = [];
