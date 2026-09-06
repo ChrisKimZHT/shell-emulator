@@ -81,33 +81,32 @@ export default {
         return;
       }
       const hints = getHint(this.currentDir, this.currentCommand);
-      if (hints.length !== 0) {
-        this.displayHint = hints.at(0);
-      }
-      for (let i = 0; i < hints.length; i++) {
-        const tmp = this.currentCommand.split(" ");
-        hints[i] = tmp[tmp.length - 1] + hints[i];
-      }
-      this.currentHint = hints;
+      // 多个候选项只补齐公共前缀，避免任意选择其中一个文件。
+      this.displayHint = hints.reduce((prefix, hint) => {
+        let length = 0;
+        while (length < prefix.length && prefix[length] === hint[length]) {
+          length++;
+        }
+        return prefix.slice(0, length);
+      }, hints[0] ?? "");
+      const token = this.currentCommand.split(" ").pop();
+      this.currentHint = hints.map(hint => token + hint);
     },
     confirmHint() {
       if (this.paused) return;
       if (this.currentHint.length === 0) {
         // do nothing
-      } else if (this.currentHint.length === 1) {
+      } else if (this.displayHint.length > 0) {
         this.updateCurrentCommand(this.currentCommand + this.displayHint);
         this.updateHint();
+        this.hintTabCount = 1;
         this.moveCursorToEnd();
-      } else {
+      } else if (this.currentHint.length > 1) {
         if (this.hintTabCount === 0) {
           this.hintTabCount++;
         } else {
-          const tmp = this.currentHint;
-          for (let i = 0; i < tmp.length; i++) {
-            const split = tmp[i].split("/"); // 治标不治本修复下算了
-            tmp[i] = split[split.length - 1];
-          }
-          this.$emit("re-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand), tmp.join("\t\t"));
+          const names = this.currentHint.map(hint => hint.split("/").pop());
+          this.$emit("re-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand), names.join("\t\t"));
         }
       }
     },
