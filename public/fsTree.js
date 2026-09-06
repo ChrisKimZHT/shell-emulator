@@ -44,6 +44,7 @@ window.fsTree = {
       "4": { "msr": nothing }, "5": { "msr": nothing }, "6": { "msr": nothing }, "7": { "msr": nothing },
       "8": { "msr": nothing }, "9": { "msr": nothing }, "10": { "msr": nothing }, "11": { "msr": nothing },
       "12": { "msr": nothing }, "13": { "msr": nothing }, "14": { "msr": nothing }, "15": { "msr": nothing },
+      "16": { "msr": nothing }, "17": { "msr": nothing }, "18": { "msr": nothing }, "19": { "msr": nothing },
     },
     "disk": {
       "by-id": {
