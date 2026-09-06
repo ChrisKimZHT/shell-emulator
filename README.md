@@ -65,10 +65,10 @@ window.fsTree = {
 
 ## 添加命令
 
->  命令实现在 `cmd` 目录，命令注册在 `command.js` 中。如果要添加一个新命令，流程如下：
-> 1. 在 `cmd` 目录下创建你的命令，实现命令函数，可选实现提示函数。
-> 2. 在 `command.js` 导入你的命令函数以及可选的提示函数。
-> 3. 将你的命令函数和可选的提示函数注册到 `externalCommand` 列表中。
+命令全部定义并注册在 `public/command.js` 中，如果要添加一个新命令，流程如下：
+
+1. 在 `command.js` 中定义命令函数，可选实现提示函数；
+2. 将其加入 `command.js` 文件末尾的 `window.externalCommand` 列表。
 
 #### 传入参数
 
