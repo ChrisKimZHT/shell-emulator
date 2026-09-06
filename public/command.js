@@ -58,7 +58,7 @@ function echo(cwd, args) {
 
 // ==================== help ====================
 
-const helpCommandList = ["echo", "clear", "pwd", "cd", "ls", "cat", "version", "uname", "hello", "help"].sort();
+const helpCommandList = ["echo", "clear", "pwd", "cd", "ls", "cat", "version", "uname", "hello", "help", "sleep"].sort();
 function help(cwd, args) {
   if (args.length > 0) return "help: too many arguments";
   return [
@@ -146,6 +146,22 @@ function shutdown(cwd, args, utils) {
   return "The system will power off now!";
 }
 
+// ==================== sleep ====================
+
+function sleep(cwd, args, utils) {
+  if (args.length === 0) return "sleep: missing operand (usage: sleep <seconds>)";
+  if (args.length > 1) return "sleep: too many arguments";
+  const milliseconds = Number(args[0]) * 1000;
+  if (!/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(args[0]) || !Number.isFinite(milliseconds)) {
+    return `sleep: invalid time interval '${args[0]}'`;
+  }
+  if (milliseconds > 2147483647) return "sleep: time interval too large";
+  utils.eventBus.emit("pause-prompt");
+  setTimeout(() => {
+    utils.eventBus.emit("resume-prompt");
+  }, milliseconds);
+}
+
 // ==================== uname ====================
 
 function uname(cwd, args) {
@@ -197,6 +213,7 @@ window.externalCommand = [
   { name: "pwd", func: pwd },
   { name: "reboot", func: reboot },
   { name: "shutdown", func: shutdown },
+  { name: "sleep", func: sleep },
   { name: "uname", func: uname, hint: unameHint },
   { name: "uptime", func: uptime },
   { name: "version", func: version }

@@ -35,6 +35,11 @@ export default {
         document.querySelector("#input-line")?.scrollIntoView();
       });
     },
+    onInterruptPausedCommand() {
+      if (!this.isPromptPaused) return;
+      this.historyContent += "^C\n";
+      eventBus.emit("resume-prompt");
+    },
     onClear() {
       if (this.isPromptPaused) return;
       this.historyContent = "";
@@ -71,12 +76,14 @@ export default {
     },
   },
   mounted() {
+    eventBus.on("ctrl-c", this.onInterruptPausedCommand);
     eventBus.on("pause-prompt", this.onPausePrompt);
     eventBus.on("resume-prompt", this.onResumePrompt);
     eventBus.on("ctrl-l", this.onClear);
     eventBus.on("change-dir", this.onChangeDir);
   },
   beforeUnmount() {
+    eventBus.off("ctrl-c", this.onInterruptPausedCommand);
     eventBus.off("pause-prompt", this.onPausePrompt);
     eventBus.off("resume-prompt", this.onResumePrompt);
     eventBus.off("ctrl-l", this.onClear);
