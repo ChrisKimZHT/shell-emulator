@@ -125,14 +125,25 @@ function pwd(cwd, args) {
 
 // ==================== reboot ====================
 
-function reboot(cwd, args) {
-  return args.length > 0 ? "reboot: too many arguments" : "System has not been booted with systemd as init system (PID 1). Can't operate.\nFailed to connect to bus: Host is down";
+function reboot(cwd, args, utils) {
+  if (args.length > 0) return "reboot: too many arguments";
+  utils.eventBus.emit("pause-prompt");
+  setTimeout(() => {
+    localStorage.removeItem("uptime");
+    window.location.reload();
+  }, 1000 + Math.random() * 1000);
+  return "The system will reboot now!";
 }
 
 // ==================== shutdown ====================
 
-function shutdown(cwd, args) {
-  return args.length > 0 ? "shutdown: too many arguments" : "System has not been booted with systemd as init system (PID 1). Can't operate.\nFailed to connect to bus: Host is down";
+function shutdown(cwd, args, utils) {
+  if (args.length > 0) return "shutdown: too many arguments";
+  utils.eventBus.emit("pause-prompt");
+  setTimeout(() => {
+    window.location.assign("about:blank");
+  }, 1000 + Math.random() * 1000);
+  return "The system will power off now!";
 }
 
 // ==================== uname ====================

@@ -15,6 +15,7 @@ export default {
   name: "InputLine",
   props: [
     "currentDir",
+    "paused",
   ],
   data() {
     return {
@@ -30,6 +31,7 @@ export default {
   },
   methods: {
     getFocus() {
+      if (this.paused) return;
       if (document.activeElement !== this.$refs.inputArea) {
         this.$refs.inputArea.focus();
         this.moveCursorToEnd();
@@ -66,6 +68,7 @@ export default {
       this.$refs.inputArea.innerText = val;
     },
     onInput() {
+      if (this.paused) return;
       this.currentCommand = this.$refs.inputArea.innerText;
       this.curHistoryIndex = this.historyCommands.length;
       this.updateHint();
@@ -88,6 +91,7 @@ export default {
       this.currentHint = hints;
     },
     confirmHint() {
+      if (this.paused) return;
       if (this.currentHint.length === 0) {
         // do nothing
       } else if (this.currentHint.length === 1) {
@@ -108,6 +112,7 @@ export default {
       }
     },
     finishedInput() {
+      if (this.paused) return;
       this.$emit("finished-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
       this.historyCommands.push(this.currentCommand);
       this.curHistoryIndex = this.historyCommands.length;
@@ -115,11 +120,13 @@ export default {
       this.updateHint();
     },
     interruptInput() {
+      if (this.paused) return;
       this.$emit("interrupt-input", this.getShellPrompt(), this.escapeHtml(this.currentCommand));
       this.updateCurrentCommand("");
       this.updateHint();
     },
     onPrevHistory() {
+      if (this.paused) return;
       if (this.curHistoryIndex > 0) {
         this.curHistoryIndex--;
         this.updateCurrentCommand(this.historyCommands[this.curHistoryIndex]);
@@ -128,6 +135,7 @@ export default {
       this.updateHint();
     },
     onNextHistory() {
+      if (this.paused) return;
       if (this.curHistoryIndex < this.historyCommands.length - 1) {
         this.curHistoryIndex++;
         this.updateCurrentCommand(this.historyCommands[this.curHistoryIndex]);
