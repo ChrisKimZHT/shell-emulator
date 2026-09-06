@@ -7,6 +7,10 @@
 - 展示页面：https://www.chriskim.cn/
 - 灵感来源：https://axton.cc/ （似乎已经挂了）
 
+## 版本号
+
+项目以 `package.json` 中的 `version` 作为唯一版本号来源，构建时会自动注入页面。发布新版本时可使用 `npm version patch`、`npm version minor` 或 `npm version major` 更新版本号。
+
 ## 配置文件
 
 ```js
