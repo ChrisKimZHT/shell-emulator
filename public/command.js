@@ -127,11 +127,12 @@ function pwd(cwd, args) {
 
 function reboot(cwd, args, utils) {
   if (args.length > 0) return "reboot: too many arguments";
-  utils.eventBus.emit("pause-prompt");
+  utils.eventBus.emit("pause-prompt"); // pause-prompt 暂停命令提示符，模拟重启状态
+  utils.eventBus.off("ctrl-c");        // ^C 的设计能直接恢复 pause-prompt，所以得直接移除禁用它
   setTimeout(() => {
     localStorage.removeItem("uptime");
     window.location.reload();
-  }, 1000 + Math.random() * 1000);
+  }, 2000 + Math.random() * 1000);
   return "The system will reboot now!";
 }
 
@@ -139,17 +140,18 @@ function reboot(cwd, args, utils) {
 
 function shutdown(cwd, args, utils) {
   if (args.length > 0) return "shutdown: too many arguments";
-  utils.eventBus.emit("pause-prompt");
+  utils.eventBus.emit("pause-prompt"); // pause-prompt 暂停命令提示符，模拟关机状态
+  utils.eventBus.off("ctrl-c");        // ^C 的设计能直接恢复 pause-prompt，所以得直接移除禁用它
   setTimeout(() => {
     window.location.assign("about:blank");
-  }, 1000 + Math.random() * 1000);
+  }, 2000 + Math.random() * 1000);
   return "The system will power off now!";
 }
 
 // ==================== sleep ====================
 
 function sleep(cwd, args, utils) {
-  if (args.length === 0) return "sleep: missing operand (usage: sleep <seconds>)";
+  if (args.length === 0) return "sleep: missing operand";
   if (args.length > 1) return "sleep: too many arguments";
   const milliseconds = Number(args[0]) * 1000;
   if (!/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(args[0]) || !Number.isFinite(milliseconds)) {
